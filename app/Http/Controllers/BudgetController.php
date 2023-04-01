@@ -59,13 +59,12 @@ class BudgetController extends Controller
         $this->budget_id = $id->id;
         return view('budget.budget_expenses', [
             "budget" => budget::findOrFail($id->id),
-            "expenses" => expenses::get(),
+            "expenses" => expenses::query()->where('budget_id', $id->id)->get(),
             "budget_id" => $id->id,
         ]);
     }
     public function store_expenses(StoreexpensesRequest $request)
     {
-        dd(Auth::budget());
         expenses::create([
             "description" => $request->description, 
             "amount" =>$request->amount, 

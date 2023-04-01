@@ -33,7 +33,7 @@ class ExpensesController extends Controller
         $my_expenses = expenses::query()->where('budget_id', $id)->sum('amount');
         $message = "You've either exceeded your budget or that budget has expired ";
 
-        if ($my_expenses >= ($my_budget * 0.7)) {
+        if ($my_expenses >= ($my_budget * 0.7) && $my_expenses < $my_budget) {
             Mail::to(Auth::user()['email'])->send(new budget_Mail_2([
                 'my_budget' => $my_budget,
                 'my_expenses' => $my_expenses,
