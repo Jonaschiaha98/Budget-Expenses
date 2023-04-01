@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateexpensesRequest;
 use App\Mail\budget_Mail;
 use App\Mail\budget_Mail_2;
 use App\Models\budget;
+use Faker\Core\Number;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,6 @@ class ExpensesController extends Controller
      */
     public function index()
     {
-        // dd((budget::with('expenses')->where('id', 1)->first())->id);
         return view('budget.expenses');
     }
 
@@ -29,28 +29,33 @@ class ExpensesController extends Controller
      */
     public function create($id)
     {
-        $my_budget = (budget::query()->where('id', $id)->first());
+        $my_budget = budget::query()->where('id', $id)->first();
         $my_expenses = expenses::query()->where('budget_id', $id)->sum('amount');
+        $my_expenses = isset($my_expenses) ? ($my_expenses) : 1;
         $message = "You've either exceeded your budget or that budget has expired ";
 
-        if ($my_expenses >= ($my_budget * 0.7) && $my_expenses < $my_budget) {
+        if ($my_expenses >= ($my_budget->amount * 0.7) && $my_expenses < $my_budget->amount) {
             Mail::to(Auth::user()['email'])->send(new budget_Mail_2([
                 'my_budget' => $my_budget,
                 'my_expenses' => $my_expenses,
             ]));
-            return redirect()->route('budget.show', $id)->with($message);
+            return view('budget.create_expenses', [
+                "budget" => budget::findOrFail($id),
+            ]);
         }
-        if ($my_budget->duration = now()->format('D/M/Y') || $my_expenses >= $my_budget) {
+        elseif ($my_budget->duration = now()->format('D-M-Y') || $my_expenses > $my_budget->amount) {
             Mail::to(Auth::user()['email'])->send(new budget_Mail([
                 'my_budget' => $my_budget,
                 'my_expenses' => $my_expenses,
             ]));
             return redirect()->route('budget.show', $id)->with($message);
+        }else{
+            return view('budget.create_expenses', [
+                "budget" => budget::findOrFail($id),
+            ]);
         }
 
-        return view('budget.create_expenses', [
-            "budget" => budget::findOrFail($id),
-        ]);
+        
     }
 
     /**
