@@ -26,7 +26,7 @@
                             @csrf
                             <fieldset>
                                 <div class="field">
-                                    <input name="duration" required placeholder="Pick date rage" id="kt_daterangepicker_4" class="text-center" />
+                                    <input name="duration" value="{{ date('M-Y') }}" required placeholder="Pick date rage" id="kt_daterangepicker_4" class="text-center" />
                                 </div>
                                 <div class="field">
                                     <input type="text" required name="description" placeholder="Description" class="text-center" />

@@ -56,6 +56,7 @@ class BudgetController extends Controller
     
     public function show(budget $id)
     {
+        
         $this->budget_id = $id->id;
         return view('budget.budget_expenses', [
             "budget" => budget::findOrFail($id->id),

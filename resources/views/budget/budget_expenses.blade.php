@@ -27,7 +27,9 @@
                                 <th>{{ $budget->duration }}</th>
                                 <th>{{ $budget->description }}</th>
                                 <th>{{ $budget->amount }}</th>
-                                <th><a href="{{ route('budget.edit', $budget->id) }}" class="bbb">edit</a>|<a href="{{ route('expenses.create', $budget->id) }}" class="bbb">Add Expenses</a>|<a class="bbb"><form action="{{ route('budget.delete', $budget->id) }}" method="post">@method('DELETE')@csrf <input type="submit" value="Delete"></form</a></th>
+                                <th><a href="{{ route('budget.edit', $budget->id) }}" class="bbb">edit</a></th>
+                                <th><a href="{{ route('expenses.create', $budget->id) }}" class="bbb">Add Expenses</a></th>
+                                <th><a class="bbb"><form action="{{ route('budget.delete', $budget->id) }}" method="post">@method('DELETE')@csrf <input type="submit" value="Delete"></form</a></th>
                             </tr>
                             @endisset
                             @isset($expenses)
@@ -36,7 +38,10 @@
                                 <td>{{ $expense->created_at->format('D/M/Y') }}</td>
                                 <td>{{ $expense->description }}</td>
                                 <td>{{ $expense->amount }}</td>
-                                <th><a href="{{ route('expenses.edit', $expense->id) }}" class="bbb">edit</a>|<a class="bbb"><form action="{{ route('expenses.delete', $expense->id) }}" method="post">@method('DELETE')@csrf <input type="submit" value="Delete"></form></a></th>
+                                <td><a href="{{ route('expenses.edit', $expense->id) }}" class="bbb">edit</a></td>
+                                <td rowspan="1"></td>
+                                <td><a class="bbb"><form action="{{ route('expenses.delete', $expense->id) }}" method="post">@method('DELETE')@csrf <input type="submit" value="Delete"></form></a></td>
+                                
                             </tr>
                             @endforeach
                             @endisset

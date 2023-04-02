@@ -31,7 +31,7 @@ class ExpensesController extends Controller
     {
         $my_budget = budget::query()->where('id', $id)->first();
         $my_expenses = expenses::query()->where('budget_id', $id)->sum('amount');
-        $my_expenses = isset($my_expenses) ? ($my_expenses) : 1;
+        $my_expenses = isset($my_expenses) ? ($my_expenses) : 0;
         $message = "You've either exceeded your budget or that budget has expired ";
 
         if ($my_expenses >= ($my_budget->amount * 0.7) && $my_expenses < $my_budget->amount) {
@@ -43,7 +43,7 @@ class ExpensesController extends Controller
                 "budget" => budget::findOrFail($id),
             ]);
         }
-        elseif ($my_budget->duration = now()->format('D-M-Y') || $my_expenses > $my_budget->amount) {
+        elseif ($my_budget->duration > now()->format('M-Y') || $my_expenses > $my_budget->amount) {
             Mail::to(Auth::user()['email'])->send(new budget_Mail([
                 'my_budget' => $my_budget,
                 'my_expenses' => $my_expenses,

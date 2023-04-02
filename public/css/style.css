@@ -2373,7 +2373,7 @@ table th,td{
 	text-align: center;
 	padding: 2px 10px;
 	border: 2px solid #fff;
-	margin: 5px;
+	/* margin: 5px; */
 	color: #fff;
 	
 }
